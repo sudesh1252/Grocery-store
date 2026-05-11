@@ -133,9 +133,17 @@ const Login = () => {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="label">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="password" className="label">
+                  Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaLock className="text-gray-400" />
