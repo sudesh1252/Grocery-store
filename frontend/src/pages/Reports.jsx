@@ -2,14 +2,14 @@
 // View daily, monthly, and yearly sales reports
 
 import React, { useState, useEffect } from 'react';
-import { FaChartLine, FaCalendarDay, FaCalendarAlt, FaCalendar, FaPrint, FaFileExport, FaRupeeSign, FaFileInvoice } from 'react-icons/fa';
+import { FaChartLine, FaCalendarDay, FaCalendarAlt, FaCalendar, FaPrint, FaFileExport, FaRupeeSign, FaFileInvoice, FaBoxes, FaExclamationTriangle, FaTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Loader from '../components/common/Loader';
 import { getReports } from '../services/reportService';
 
 const Reports = () => {
   const [loading, setLoading] = useState(false);
-  const [reportType, setReportType] = useState('daily'); // daily, monthly, yearly
+  const [reportType, setReportType] = useState('daily'); // daily, monthly, yearly, inventory
   const [reportData, setReportData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
@@ -29,6 +29,8 @@ const Reports = () => {
         data = await getReports.monthly(selectedYear, selectedMonth);
       } else if (reportType === 'yearly') {
         data = await getReports.yearly(selectedYear);
+      } else if (reportType === 'inventory') {
+        data = await getReports.inventory();
       }
       setReportData(data);
     } catch (error) {
@@ -106,9 +108,11 @@ const Reports = () => {
         {/* Header - No Print */}
         <div className="mb-8 no-print">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
-            Sales Reports
+            {reportType === 'inventory' ? 'Inventory Report' : 'Sales Reports'}
           </h1>
-          <p className="text-gray-600">Analyze your business performance</p>
+          <p className="text-gray-600">
+            {reportType === 'inventory' ? 'Monitor your stock levels and inventory value' : 'Analyze your business performance'}
+          </p>
         </div>
 
         {/* Controls Card - No Print */}
@@ -147,6 +151,17 @@ const Reports = () => {
             >
               <FaCalendar className="text-lg" />
               Yearly
+            </button>
+            <button
+              onClick={() => setReportType('inventory')}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+                reportType === 'inventory'
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <FaBoxes className="text-lg" />
+              Inventory
             </button>
           </div>
 
@@ -195,6 +210,11 @@ const Reports = () => {
                   className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent w-28 transition-all"
                 />
               )}
+              {reportType === 'inventory' && (
+                <div className="px-4 py-3 text-gray-600 font-semibold">
+                  Current Inventory Status
+                </div>
+              )}
             </div>
 
             {/* Action Buttons */}
@@ -231,12 +251,192 @@ const Reports = () => {
                 {reportType === 'daily' && `Daily Report - ${new Date(selectedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`}
                 {reportType === 'monthly' && `Monthly Report - ${new Date(selectedYear, selectedMonth - 1).toLocaleString('default', { month: 'long', year: 'numeric' })}`}
                 {reportType === 'yearly' && `Yearly Report - ${selectedYear}`}
+                {reportType === 'inventory' && `Inventory Report - ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`}
               </h2>
               <hr style={{ margin: '20px 0', border: '1px solid #ccc' }} />
             </div>
 
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {/* Inventory Report */}
+            {reportType === 'inventory' && (
+              <>
+                {/* Inventory Summary Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                  <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold">Total Products</h3>
+                      <FaBoxes className="text-3xl opacity-80" />
+                    </div>
+                    <p className="text-4xl font-bold mb-2">
+                      {reportData.data?.summary?.totalProducts || 0}
+                    </p>
+                    <p className="text-sm opacity-90">Products in inventory</p>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold">Total Stock</h3>
+                      <FaCheckCircle className="text-3xl opacity-80" />
+                    </div>
+                    <p className="text-4xl font-bold mb-2">
+                      {reportData.data?.summary?.totalStock || 0}
+                    </p>
+                    <p className="text-sm opacity-90">Units in stock</p>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold">Total Value</h3>
+                      <FaRupeeSign className="text-3xl opacity-80" />
+                    </div>
+                    <p className="text-4xl font-bold mb-2">
+                      ₹{reportData.data?.summary?.totalValue?.toLocaleString('en-IN') || 0}
+                    </p>
+                    <p className="text-sm opacity-90">Inventory value</p>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold">Low Stock</h3>
+                      <FaExclamationTriangle className="text-3xl opacity-80" />
+                    </div>
+                    <p className="text-4xl font-bold mb-2">
+                      {reportData.data?.summary?.lowStockCount || 0}
+                    </p>
+                    <p className="text-sm opacity-90">Items need restock</p>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold">Out of Stock</h3>
+                      <FaTimesCircle className="text-3xl opacity-80" />
+                    </div>
+                    <p className="text-4xl font-bold mb-2">
+                      {reportData.data?.summary?.outOfStockCount || 0}
+                    </p>
+                    <p className="text-sm opacity-90">Items unavailable</p>
+                  </div>
+                </div>
+
+                {/* Category Breakdown */}
+                {reportData.data?.byCategory && reportData.data.byCategory.length > 0 && (
+                  <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                      <FaChartLine className="text-blue-600" />
+                      Inventory by Category
+                    </h2>
+                    <div className="space-y-3">
+                      {reportData.data.byCategory.map((cat) => (
+                        <div key={cat.category} className="flex items-center gap-4">
+                          <div className="w-32 text-sm font-bold text-gray-700 capitalize">
+                            {cat.category}
+                          </div>
+                          <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-12">
+                            <div
+                              className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full flex items-center justify-between px-4 text-white font-bold transition-all duration-700 hover:from-blue-600 hover:to-cyan-600"
+                              style={{
+                                width: `${Math.max((cat.value / Math.max(...reportData.data.byCategory.map((c) => c.value))) * 100, 5)}%`,
+                              }}
+                            >
+                              <span>{cat.products} products</span>
+                              <span>₹{cat.value.toLocaleString('en-IN')}</span>
+                            </div>
+                          </div>
+                          <div className="w-24 text-sm text-gray-600 text-right">
+                            {cat.stock} units
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Products Table */}
+                {reportData.data?.products && reportData.data.products.length > 0 && (
+                  <div className="bg-white rounded-2xl shadow-xl p-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                      <FaBoxes className="text-blue-600" />
+                      All Products
+                    </h2>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b-2 border-gray-200">
+                            <th className="text-left py-3 px-4 font-bold text-gray-700">Product</th>
+                            <th className="text-left py-3 px-4 font-bold text-gray-700">SKU</th>
+                            <th className="text-left py-3 px-4 font-bold text-gray-700">Category</th>
+                            <th className="text-center py-3 px-4 font-bold text-gray-700">Stock</th>
+                            <th className="text-right py-3 px-4 font-bold text-gray-700">Price</th>
+                            <th className="text-right py-3 px-4 font-bold text-gray-700">Value</th>
+                            <th className="text-center py-3 px-4 font-bold text-gray-700">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {reportData.data.products.map((product, index) => (
+                            <tr 
+                              key={product.id} 
+                              className={`border-b border-gray-100 hover:bg-blue-50 transition-colors ${
+                                index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                              }`}
+                            >
+                              <td className="py-3 px-4 font-bold text-gray-800">{product.name}</td>
+                              <td className="py-3 px-4 text-gray-600">{product.sku}</td>
+                              <td className="py-3 px-4 text-gray-600 capitalize">{product.category}</td>
+                              <td className="py-3 px-4 text-center">
+                                <span className={`px-3 py-1 rounded-full font-bold ${
+                                  product.stock === 0 
+                                    ? 'bg-red-100 text-red-700' 
+                                    : product.stock <= product.minStock 
+                                    ? 'bg-yellow-100 text-yellow-700' 
+                                    : 'bg-green-100 text-green-700'
+                                }`}>
+                                  {product.stock}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-right text-gray-800">
+                                ₹{parseFloat(product.sellingPrice).toLocaleString('en-IN')}
+                              </td>
+                              <td className="py-3 px-4 text-right font-bold text-gray-900">
+                                ₹{(product.stock * parseFloat(product.sellingPrice)).toLocaleString('en-IN')}
+                              </td>
+                              <td className="py-3 px-4 text-center">
+                                {product.stock === 0 ? (
+                                  <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">
+                                    Out of Stock
+                                  </span>
+                                ) : product.stock <= product.minStock ? (
+                                  <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold">
+                                    Low Stock
+                                  </span>
+                                ) : (
+                                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                                    In Stock
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* No Products Message */}
+                {(!reportData.data?.products || reportData.data.products.length === 0) && (
+                  <div className="bg-white rounded-2xl shadow-xl p-16 text-center">
+                    <FaBoxes className="text-8xl text-gray-300 mx-auto mb-6" />
+                    <p className="text-2xl font-bold text-gray-400 mb-2">No products in inventory</p>
+                    <p className="text-gray-500">Add products to see inventory report</p>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Sales Report (existing code) */}
+            {reportType !== 'inventory' && (
+              <>
+                {/* Summary Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-lg font-semibold">Total Sales</h3>
@@ -416,6 +616,8 @@ const Reports = () => {
                   </table>
                 </div>
               </div>
+            )}
+              </>
             )}
           </div>
         ) : (

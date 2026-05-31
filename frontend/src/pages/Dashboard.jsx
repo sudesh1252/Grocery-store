@@ -63,13 +63,6 @@ const Dashboard = () => {
             Welcome back! Here's your store overview
           </p>
         </div>
-        <Link
-          to="/billing"
-          className="mt-4 sm:mt-0 inline-flex items-center btn btn-primary"
-        >
-          <FaPlus className="mr-2" />
-          Create Invoice
-        </Link>
       </div>
 
       {/* Statistics Cards */}

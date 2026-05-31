@@ -101,8 +101,13 @@ const createProduct = asyncHandler(async (req, res) => {
     expiryDate,
   } = req.body;
   
-  // Check if SKU already exists
-  const existingProduct = await Product.findOne({ where: { sku } });
+  // Check if SKU already exists for this user
+  const existingProduct = await Product.findOne({ 
+    where: { 
+      sku,
+      userId: req.user.id 
+    } 
+  });
   if (existingProduct) {
     res.status(400);
     throw new Error('Product with this SKU already exists');
@@ -180,9 +185,14 @@ const updateProduct = asyncHandler(async (req, res) => {
     status,
   } = req.body;
   
-  // Check if new SKU already exists (if SKU is being changed)
+  // Check if new SKU already exists for this user (if SKU is being changed)
   if (sku && sku !== product.sku) {
-    const existingProduct = await Product.findOne({ where: { sku } });
+    const existingProduct = await Product.findOne({ 
+      where: { 
+        sku,
+        userId: req.user.id 
+      } 
+    });
     if (existingProduct) {
       res.status(400);
       throw new Error('Product with this SKU already exists');

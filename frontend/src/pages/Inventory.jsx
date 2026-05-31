@@ -45,19 +45,26 @@ const Inventory = () => {
     setLoading(true);
     try {
       const response = await api.get('/inventory');
-      const productsData = response.data.data || [];
-      setProducts(productsData);
+      console.log('API Response:', response); // Debug log
+      
+      // Handle response - api interceptor already returns response.data
+      // So response = {success: true, count: X, data: [...]}
+      const productsData = response.data || response || [];
+      console.log('Products Data:', productsData); // Debug log
+      
+      setProducts(Array.isArray(productsData) ? productsData : []);
       
       // Calculate stats
-      const total = productsData.length;
-      const lowStock = productsData.filter(p => p.stock <= p.minStock && p.stock > 0).length;
-      const outOfStock = productsData.filter(p => p.stock === 0).length;
-      const totalValue = productsData.reduce((sum, p) => sum + (p.stock * p.sellingPrice), 0);
+      const productArray = Array.isArray(productsData) ? productsData : [];
+      const total = productArray.length;
+      const lowStock = productArray.filter(p => p.stock <= p.minStock && p.stock > 0).length;
+      const outOfStock = productArray.filter(p => p.stock === 0).length;
+      const totalValue = productArray.reduce((sum, p) => sum + (p.stock * p.sellingPrice), 0);
       
       setStats({ total, lowStock, outOfStock, totalValue });
     } catch (error) {
       console.error('Error fetching products:', error);
-      toast.error('Failed to load products');
+      toast.error(error || 'Failed to load products');
     } finally {
       setLoading(false);
     }

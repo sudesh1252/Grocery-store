@@ -25,12 +25,12 @@ const Product = sequelize.define('Product', {
   sku: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    unique: true,
+    unique: false, // Changed to false - will use composite unique index instead
   },
   barcode: {
     type: DataTypes.STRING(100),
     allowNull: true,
-    unique: true,
+    unique: false, // Changed to false - will use composite unique index instead
   },
   description: {
     type: DataTypes.TEXT,
@@ -105,7 +105,8 @@ const Product = sequelize.define('Product', {
   tableName: 'products',
   timestamps: true,
   indexes: [
-    { fields: ['sku'], name: 'idx_products_sku' },
+    { fields: ['sku', 'userId'], unique: true, name: 'idx_products_sku_user' }, // Composite unique index
+    { fields: ['barcode', 'userId'], unique: true, name: 'idx_products_barcode_user' }, // Composite unique for barcode
     { fields: ['category'], name: 'idx_products_category' },
     { fields: ['status'], name: 'idx_products_status' },
     { fields: ['userId'], name: 'idx_products_user_id' },

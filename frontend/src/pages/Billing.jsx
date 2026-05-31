@@ -1,7 +1,7 @@
 // Billing Page
 // Complete invoice creation system for real-world grocery store use
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   FaPlus, 
@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import invoiceService from '../services/invoiceService';
+import api from '../services/api';
 import { formatCurrency, calculatePercentage } from '../utils/helpers';
 import { TAX_RATE } from '../utils/constants';
 
@@ -44,6 +45,29 @@ const Billing = () => {
   // Validation errors
   const [errors, setErrors] = useState({});
 
+  // Products from inventory
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
+  // Fetch products from inventory
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    setLoadingProducts(true);
+    try {
+      const response = await api.get('/inventory');
+      const productsData = response.data || response || [];
+      setProducts(Array.isArray(productsData) ? productsData : []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      // Don't show error toast, just log it
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
   // Handle customer info change
   const handleCustomerChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +87,24 @@ const Billing = () => {
       ...prev,
       [name]: name === 'name' ? value : parseFloat(value) || '',
     }));
+  };
+
+  // Handle product selection from dropdown
+  const handleProductSelect = (e) => {
+    const productId = e.target.value;
+    if (!productId) {
+      setCurrentItem({ name: '', quantity: 1, price: 0 });
+      return;
+    }
+
+    const selectedProduct = products.find(p => p.id === parseInt(productId));
+    if (selectedProduct) {
+      setCurrentItem({
+        name: selectedProduct.name,
+        quantity: 1,
+        price: parseFloat(selectedProduct.sellingPrice) || 0,
+      });
+    }
   };
 
   // Handle input focus - select all text
@@ -269,6 +311,30 @@ const Billing = () => {
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           {editingIndex !== null ? 'Edit Item' : 'Add Items'}
         </h2>
+        
+        {/* Product Dropdown */}
+        <div className="mb-4">
+          <label htmlFor="productSelect" className="label">
+            Select Product from Inventory
+          </label>
+          <select
+            id="productSelect"
+            onChange={handleProductSelect}
+            className="input"
+            disabled={loadingProducts}
+          >
+            <option value="">-- Select a product or type manually below --</option>
+            {products.map((product) => (
+              <option key={product.id} value={product.id}>
+                {product.name} - ₹{parseFloat(product.sellingPrice).toFixed(2)} (Stock: {product.stock})
+              </option>
+            ))}
+          </select>
+          {loadingProducts && (
+            <p className="text-sm text-gray-500 mt-1">Loading products...</p>
+          )}
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="sm:col-span-2">
             <label htmlFor="itemName" className="label">
