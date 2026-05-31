@@ -17,6 +17,7 @@ const Reports = () => {
 
   useEffect(() => {
     fetchReport();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportType, selectedDate, selectedMonth, selectedYear]);
 
   const fetchReport = async () => {

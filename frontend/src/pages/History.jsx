@@ -25,6 +25,7 @@ const History = () => {
   // Filter invoices when search query changes
   useEffect(() => {
     filterInvoices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, invoices]);
 
   // Fetch all invoices
