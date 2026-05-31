@@ -99,6 +99,33 @@ app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 5000;
 
+// Function to create default admin user
+const createDefaultAdmin = async () => {
+  try {
+    const User = require('./models/User');
+    const bcrypt = require('bcryptjs');
+    
+    // Check if admin exists
+    const adminExists = await User.findOne({ where: { email: 'admin@shreegrocery.com' } });
+    
+    if (!adminExists) {
+      // Create admin user
+      const hashedPassword = await bcrypt.hash('admin123', 10);
+      await User.create({
+        name: 'Admin',
+        email: 'admin@shreegrocery.com',
+        password: hashedPassword,
+        role: 'admin'
+      });
+      console.log('✅ Default admin user created');
+      console.log('   Email: admin@shreegrocery.com');
+      console.log('   Password: admin123\n');
+    }
+  } catch (error) {
+    console.error('⚠️  Error creating admin user:', error.message);
+  }
+};
+
 const server = app.listen(PORT, async () => {
   console.log('\n' + '='.repeat(60));
   console.log('🚀 SERVER STARTED SUCCESSFULLY');
@@ -110,8 +137,10 @@ const server = app.listen(PORT, async () => {
   console.log('='.repeat(60) + '\n');
   
   // Sync database models in background (don't wait)
-  sequelize.sync({ alter: false }).then(() => {
+  sequelize.sync({ alter: true }).then(async () => {
     console.log('✅ Database models synchronized\n');
+    // Create default admin user
+    await createDefaultAdmin();
   }).catch((error) => {
     console.error('⚠️  Warning syncing database:', error.message);
   });
