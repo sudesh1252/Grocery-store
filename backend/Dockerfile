@@ -8,7 +8,9 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm config set strict-ssl false && \
+    npm config set registry http://registry.npmjs.org/ && \
+    npm install --production
 
 # Copy application code
 COPY . .

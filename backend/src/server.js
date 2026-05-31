@@ -18,7 +18,9 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' 
+    ? [process.env.CLIENT_URL, 'http://localhost:3000', 'http://localhost:3001']
+    : ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
 }));
 
@@ -109,14 +111,12 @@ const server = app.listen(PORT, async () => {
   console.log(`🔗 Health Check: http://localhost:${PORT}/health`);
   console.log('='.repeat(60) + '\n');
   
-  // Sync database models (create tables if they don't exist)
-  try {
-    await sequelize.sync({ alter: false }); // Use { force: true } to drop and recreate tables
+  // Sync database models in background (don't wait)
+  sequelize.sync({ alter: false }).then(() => {
     console.log('✅ Database models synchronized\n');
-  } catch (error) {
+  }).catch((error) => {
     console.error('⚠️  Warning syncing database:', error.message);
-    console.log('📋 Database tables synchronized (with warnings)\n');
-  }
+  });
 });
 
 // Handle unhandled promise rejections
