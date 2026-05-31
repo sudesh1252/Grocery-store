@@ -120,6 +120,8 @@ const createDefaultAdmin = async () => {
       console.log('✅ Default admin user created');
       console.log('   Email: admin@shreegrocery.com');
       console.log('   Password: admin123\n');
+    } else {
+      console.log('ℹ️  Admin user already exists\n');
     }
   } catch (error) {
     console.error('⚠️  Error creating admin user:', error.message);
@@ -136,14 +138,15 @@ const server = app.listen(PORT, async () => {
   console.log(`🔗 Health Check: http://localhost:${PORT}/health`);
   console.log('='.repeat(60) + '\n');
   
-  // Sync database models in background (don't wait)
-  sequelize.sync({ alter: true }).then(async () => {
+  // Sync database models and create admin user
+  try {
+    await sequelize.sync({ alter: true });
     console.log('✅ Database models synchronized\n');
-    // Create default admin user
+    // Always try to create admin user on startup
     await createDefaultAdmin();
-  }).catch((error) => {
-    console.error('⚠️  Warning syncing database:', error.message);
-  });
+  } catch (error) {
+    console.error('⚠️  Error during startup:', error.message);
+  }
 });
 
 // Handle unhandled promise rejections
