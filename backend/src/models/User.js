@@ -14,35 +14,15 @@ const User = sequelize.define('User', {
   name: {
     type: DataTypes.STRING(100),
     allowNull: false,
-    validate: {
-      notEmpty: { msg: 'Name is required' },
-      len: {
-        args: [2, 100],
-        msg: 'Name must be between 2 and 100 characters',
-      },
-    },
   },
   email: {
     type: DataTypes.STRING(255),
     allowNull: false,
-    unique: {
-      msg: 'Email already exists',
-    },
-    validate: {
-      notEmpty: { msg: 'Email is required' },
-      isEmail: { msg: 'Invalid email format' },
-    },
+    unique: true,
   },
   password: {
     type: DataTypes.STRING(255),
     allowNull: false,
-    validate: {
-      notEmpty: { msg: 'Password is required' },
-      len: {
-        args: [6, 255],
-        msg: 'Password must be at least 6 characters',
-      },
-    },
   },
   role: {
     type: DataTypes.ENUM('admin', 'user'),
@@ -62,13 +42,13 @@ const User = sequelize.define('User', {
   hooks: {
     // Hash password before saving
     beforeCreate: async (user) => {
-      if (user.password) {
+      if (user.password && !user.password.startsWith('$2a$')) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
       }
     },
     beforeUpdate: async (user) => {
-      if (user.changed('password')) {
+      if (user.changed('password') && !user.password.startsWith('$2a$')) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
       }
@@ -78,7 +58,12 @@ const User = sequelize.define('User', {
 
 // Instance method to compare password
 User.prototype.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    console.error('Password comparison error:', error);
+    return false;
+  }
 };
 
 // Remove password from JSON response
