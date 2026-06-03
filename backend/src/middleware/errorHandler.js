@@ -4,6 +4,9 @@
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
 
+  // Ensure we always send JSON
+  res.setHeader('Content-Type', 'application/json');
+
   // Sequelize validation error
   if (err.name === 'SequelizeValidationError') {
     const errors = err.errors.map((e) => e.message);
@@ -48,19 +51,21 @@ const errorHandler = (err, req, res, next) => {
   }
 
   // Default error
-  const statusCode = err.statusCode || 500;
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode).json({
     success: false,
     message: err.message || 'Server error',
-    error: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
   });
 };
 
 // Not found handler
 const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  res.status(404);
-  next(error);
+  res.setHeader('Content-Type', 'application/json');
+  res.status(404).json({
+    success: false,
+    message: `Not Found - ${req.originalUrl}`,
+  });
 };
 
 module.exports = { errorHandler, notFound };

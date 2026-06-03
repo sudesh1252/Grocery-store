@@ -11,17 +11,24 @@ const generateToken = require('../utils/generateToken');
  * @access  Public
  */
 const signup = asyncHandler(async (req, res) => {
+  console.log('📝 Signup request received:', { 
+    body: req.body,
+    headers: req.headers 
+  });
+  
   const { name, email, password } = req.body;
 
   // Check if user already exists
   const userExists = await User.findOne({ where: { email } });
 
   if (userExists) {
+    console.log('❌ User already exists:', email);
     res.status(400);
     throw new Error('User already exists with this email');
   }
 
   // Create user
+  console.log('✅ Creating new user:', { name, email });
   const user = await User.create({
     name,
     email,
@@ -29,6 +36,7 @@ const signup = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    console.log('✅ User created successfully:', user.id);
     res.status(201).json({
       success: true,
       message: 'User created successfully',
@@ -41,6 +49,7 @@ const signup = asyncHandler(async (req, res) => {
       },
     });
   } else {
+    console.log('❌ Failed to create user');
     res.status(400);
     throw new Error('Invalid user data');
   }
