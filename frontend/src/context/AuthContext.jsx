@@ -64,11 +64,13 @@ export const AuthProvider = ({ children }) => {
 
   /**
    * Signup function
-   * @param {object} userData - User registration data
+   * @param {string} name - User name
+   * @param {string} email - User email
+   * @param {string} password - User password
    */
-  const signup = async (userData) => {
+  const signup = async (name, email, password) => {
     try {
-      const response = await authService.signup(userData);
+      const response = await authService.signup({ name, email, password });
       
       // Store token and user data
       setToken(response.token);
