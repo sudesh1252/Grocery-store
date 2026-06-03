@@ -103,28 +103,38 @@ const PORT = process.env.PORT || 5000;
 const createDefaultAdmin = async () => {
   try {
     const User = require('./models/User');
+    const bcrypt = require('bcryptjs');
     
-    // Check if admin exists
-    let admin = await User.findOne({ where: { email: 'admin@shreegrocery.com' } });
+    // Delete existing admin if exists (to ensure clean state)
+    await User.destroy({ where: { email: 'admin@shreegrocery.com' } });
     
-    if (!admin) {
-      // Create admin user - password will be hashed by model hook
+    // Create fresh admin user
+    // Note: Password will be hashed by beforeCreate hook automatically
+    await User.create({
+      name: 'Admin',
+      email: 'admin@shreegrocery.com',
+      password: 'admin123', // Model hook will hash this
+      role: 'admin'
+    });
+    
+    console.log('✅ Admin user recreated with fresh password');
+    console.log('   Email: admin@shreegrocery.com');
+    console.log('   Password: admin123\n');
+    
+    // Also create user account if the email exists
+    const userEmail = 'kirolkarsudesh06@gmail.com';
+    const existingUser = await User.findOne({ where: { email: userEmail } });
+    
+    if (!existingUser) {
       await User.create({
-        name: 'Admin',
-        email: 'admin@shreegrocery.com',
-        password: 'admin123', // Will be hashed by beforeCreate hook
+        name: 'Kirol Kar',
+        email: userEmail,
+        password: 'admin123',
         role: 'admin'
       });
-      console.log('✅ Default admin user created');
-      console.log('   Email: admin@shreegrocery.com');
+      console.log('✅ User account created');
+      console.log('   Email: ' + userEmail);
       console.log('   Password: admin123\n');
-    } else {
-      console.log('ℹ️  Admin user already exists');
-      // Force update password to fix any hashing issues
-      admin.changed('password', true); // Mark as changed
-      admin.password = 'admin123'; // Will be hashed by beforeUpdate hook
-      await admin.save();
-      console.log('✅ Admin password reset to: admin123\n');
     }
   } catch (error) {
     console.error('⚠️  Error with admin user:', error.message);
