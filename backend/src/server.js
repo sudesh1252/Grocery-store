@@ -136,13 +136,12 @@ const resetAndCreateUsers = async () => {
   try {
     const User = require('./models/User');
     
-    console.log('🔄 Resetting users table...');
+    console.log('🔄 Setting up users...');
     
-    // Force drop and recreate users table
-    await User.drop();
-    await User.sync({ force: true });
+    // Don't drop table - just delete all users and recreate
+    await User.destroy({ where: {}, truncate: true, cascade: true });
     
-    console.log('✅ Users table reset complete');
+    console.log('✅ Users table cleared');
     
     // Create admin user with plain password (will be hashed by model hook)
     const admin = await User.create({
@@ -177,7 +176,7 @@ const resetAndCreateUsers = async () => {
     console.log('\n');
     
   } catch (error) {
-    console.error('⚠️  Error resetting users:', error.message);
+    console.error('⚠️  Error setting up users:', error.message);
     console.error(error);
   }
 };
