@@ -103,28 +103,31 @@ const PORT = process.env.PORT || 5000;
 const createDefaultAdmin = async () => {
   try {
     const User = require('./models/User');
-    const bcrypt = require('bcryptjs');
     
     // Check if admin exists
-    const adminExists = await User.findOne({ where: { email: 'admin@shreegrocery.com' } });
+    let admin = await User.findOne({ where: { email: 'admin@shreegrocery.com' } });
     
-    if (!adminExists) {
-      // Create admin user
-      const hashedPassword = await bcrypt.hash('admin123', 10);
+    if (!admin) {
+      // Create admin user - password will be hashed by model hook
       await User.create({
         name: 'Admin',
         email: 'admin@shreegrocery.com',
-        password: hashedPassword,
+        password: 'admin123', // Will be hashed by beforeCreate hook
         role: 'admin'
       });
       console.log('✅ Default admin user created');
       console.log('   Email: admin@shreegrocery.com');
       console.log('   Password: admin123\n');
     } else {
-      console.log('ℹ️  Admin user already exists\n');
+      console.log('ℹ️  Admin user already exists');
+      // Force update password to fix any hashing issues
+      admin.changed('password', true); // Mark as changed
+      admin.password = 'admin123'; // Will be hashed by beforeUpdate hook
+      await admin.save();
+      console.log('✅ Admin password reset to: admin123\n');
     }
   } catch (error) {
-    console.error('⚠️  Error creating admin user:', error.message);
+    console.error('⚠️  Error with admin user:', error.message);
   }
 };
 
