@@ -35,10 +35,13 @@ if (process.env.NODE_ENV === 'development') {
 
 // Root route
 app.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   res.json({
     success: true,
     message: '🛒 Welcome to Shree Grocery Store API',
     version: '2.0.0',
+    status: 'Backend is running',
+    timestamp: new Date().toISOString(),
     endpoints: {
       auth: {
         signup: 'POST /api/auth/signup',
@@ -80,6 +83,35 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/invoices', require('./routes/invoiceRoutes'));
 app.use('/api/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/reports', require('./routes/reportRoutes'));
+
+// Test endpoint for debugging
+app.post('/api/test-signup', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  try {
+    const { User } = require('./models');
+    const testUser = await User.create({
+      name: 'Test User',
+      email: 'test' + Date.now() + '@example.com',
+      password: 'test123',
+      role: 'user'
+    });
+    res.json({
+      success: true,
+      message: 'Test user created',
+      user: {
+        id: testUser.id,
+        name: testUser.name,
+        email: testUser.email
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      stack: error.stack
+    });
+  }
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
