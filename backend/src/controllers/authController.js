@@ -105,8 +105,95 @@ const getMe = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @desc    Update user profile
+ * @route   PUT /api/auth/profile
+ * @access  Private
+ */
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email } = req.body;
+
+  const user = await User.findByPk(req.user.id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  // Check if email is being changed and already exists
+  if (email && email !== user.email) {
+    const emailExists = await User.findOne({ where: { email } });
+    if (emailExists) {
+      res.status(400);
+      throw new Error('Email already in use');
+    }
+  }
+
+  // Update user fields
+  user.name = name || user.name;
+  user.email = email || user.email;
+
+  await user.save();
+
+  res.json({
+    success: true,
+    message: 'Profile updated successfully',
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
+});
+
+/**
+ * @desc    Change user password
+ * @route   PUT /api/auth/change-password
+ * @access  Private
+ */
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    res.status(400);
+    throw new Error('Please provide current and new password');
+  }
+
+  const user = await User.findByPk(req.user.id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  // Verify current password
+  const isMatch = await user.comparePassword(currentPassword);
+  if (!isMatch) {
+    res.status(401);
+    throw new Error('Current password is incorrect');
+  }
+
+  // Validate new password
+  if (newPassword.length < 6) {
+    res.status(400);
+    throw new Error('New password must be at least 6 characters');
+  }
+
+  // Update password
+  user.password = newPassword;
+  await user.save();
+
+  res.json({
+    success: true,
+    message: 'Password changed successfully',
+  });
+});
+
 module.exports = {
   signup,
   login,
   getMe,
+  updateProfile,
+  changePassword,
 };

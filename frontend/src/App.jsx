@@ -24,6 +24,7 @@ import Billing from './pages/Billing';
 import History from './pages/History';
 import Inventory from './pages/Inventory';
 import Reports from './pages/Reports';
+import Profile from './pages/Profile';
 
 // Layout Component for authenticated pages
 const AppLayout = ({ children }) => {
@@ -110,6 +111,16 @@ function App() {
               <ProtectedRoute>
                 <AppLayout>
                   <Reports />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <Profile />
                 </AppLayout>
               </ProtectedRoute>
             }
