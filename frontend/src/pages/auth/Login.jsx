@@ -166,19 +166,6 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Demo Info */}
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm font-semibold text-blue-900 mb-1">
-            🔑 Demo Account
-          </p>
-          <p className="text-sm text-blue-700">
-            Email: <span className="font-mono">admin@shreegrocery.com</span>
-          </p>
-          <p className="text-sm text-blue-700">
-            Password: <span className="font-mono">admin123</span>
-          </p>
-        </div>
-
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
           © 2026 Shree Grocery Store. All rights reserved.
