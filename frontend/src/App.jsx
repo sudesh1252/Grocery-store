@@ -13,6 +13,7 @@ import { AuthProvider } from './context/AuthContext';
 import Sidebar from './components/common/Sidebar';
 import Navbar from './components/common/Navbar';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import ServerWarmup from './components/common/ServerWarmup';
 
 // Pages
 import Login from './pages/auth/Login';
@@ -57,12 +58,13 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <ServerWarmup>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* Protected Routes */}
           <Route
@@ -132,6 +134,7 @@ function App() {
           {/* 404 - Redirect to dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
+        </ServerWarmup>
 
         {/* Toast Notifications */}
         <ToastContainer

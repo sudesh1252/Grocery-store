@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentInvoices, setRecentInvoices] = useState([]);
+  const [loadingMessage, setLoadingMessage] = useState('Loading dashboard...');
 
   // Fetch dashboard statistics
   useEffect(() => {
@@ -30,25 +31,57 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      setLoadingMessage('Loading dashboard...');
+      
+      // Add timeout for initial check
+      const startTime = Date.now();
       
       // Fetch statistics
+      setLoadingMessage('Fetching statistics...');
       const statsResponse = await invoiceService.getDashboardStats();
       setStats(statsResponse.data);
 
       // Fetch recent invoices
+      setLoadingMessage('Loading recent invoices...');
       const invoicesResponse = await invoiceService.getAllInvoices();
       setRecentInvoices(invoicesResponse.data.slice(0, 5)); // Get last 5 invoices
 
+      const loadTime = Date.now() - startTime;
+      console.log(`Dashboard loaded in ${loadTime}ms`);
+
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      toast.error('Failed to load dashboard data');
+      
+      // Check if it's a timeout/network error
+      if (error.includes('Network error') || error.includes('timeout')) {
+        setLoadingMessage('Server is starting up, please wait...');
+        // Retry after 3 seconds
+        setTimeout(() => {
+          fetchDashboardData();
+        }, 3000);
+      } else {
+        toast.error('Failed to load dashboard data');
+        setLoading(false);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <Loader fullScreen />;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <Loader />
+        <p className="mt-4 text-gray-600 text-center">
+          {loadingMessage}
+        </p>
+        {loadingMessage.includes('starting up') && (
+          <p className="mt-2 text-sm text-gray-500 text-center max-w-md">
+            The backend server is waking up from sleep. This may take 30-60 seconds on first visit.
+          </p>
+        )}
+      </div>
+    );
   }
 
   return (
