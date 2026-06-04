@@ -237,105 +237,103 @@ const Inventory = () => {
   const categories = [...new Set(products.map(p => p.category))].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 md:p-6">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
           Inventory Management
         </h1>
-        <p className="text-gray-600">Manage your products and stock efficiently</p>
+        <p className="text-sm md:text-base text-gray-600">Manage your products and stock efficiently</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-500">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+        <div className="bg-white rounded-xl shadow-lg p-3 md:p-4 border-l-4 border-blue-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Total Products</p>
-              <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
+              <p className="text-gray-500 text-xs md:text-sm">Total Products</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-800">{stats.total}</p>
             </div>
-            <FaBox className="text-3xl text-blue-500" />
+            <FaBox className="text-2xl md:text-3xl text-blue-500" />
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-yellow-500">
+        <div className="bg-white rounded-xl shadow-lg p-3 md:p-4 border-l-4 border-yellow-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Low Stock</p>
-              <p className="text-2xl font-bold text-yellow-600">{stats.lowStock}</p>
+              <p className="text-gray-500 text-xs md:text-sm">Low Stock</p>
+              <p className="text-xl md:text-2xl font-bold text-yellow-600">{stats.lowStock}</p>
             </div>
-            <FaExclamationTriangle className="text-3xl text-yellow-500" />
+            <FaExclamationTriangle className="text-2xl md:text-3xl text-yellow-500" />
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-red-500">
+        <div className="bg-white rounded-xl shadow-lg p-3 md:p-4 border-l-4 border-red-500">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Out of Stock</p>
-              <p className="text-2xl font-bold text-red-600">{stats.outOfStock}</p>
+              <p className="text-gray-500 text-xs md:text-sm">Out of Stock</p>
+              <p className="text-xl md:text-2xl font-bold text-red-600">{stats.outOfStock}</p>
             </div>
-            <FaExclamationTriangle className="text-3xl text-red-500" />
+            <FaExclamationTriangle className="text-2xl md:text-3xl text-red-500" />
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-green-500">
+        <div className="bg-white rounded-xl shadow-lg p-3 md:p-4 border-l-4 border-green-500 col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Total Value</p>
-              <p className="text-2xl font-bold text-green-600">₹{stats.totalValue.toLocaleString('en-IN')}</p>
+              <p className="text-gray-500 text-xs md:text-sm">Total Value</p>
+              <p className="text-xl md:text-2xl font-bold text-green-600">₹{stats.totalValue.toLocaleString('en-IN')}</p>
             </div>
-            <FaChartBar className="text-3xl text-green-500" />
+            <FaChartBar className="text-2xl md:text-3xl text-green-500" />
           </div>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-        <div className="flex flex-wrap gap-4 items-center justify-between mb-4">
-          {/* Search */}
-          <div className="flex-1 min-w-[250px]">
-            <div className="relative">
-              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-            </div>
+      <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-6">
+        {/* Search - Full Width on Mobile */}
+        <div className="mb-4">
+          <div className="relative">
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            />
           </div>
+        </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`px-4 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
-                showFilters
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <FaFilter />
-              Filters
-            </button>
-            
-            <button
-              onClick={exportToCSV}
-              className="px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 flex items-center gap-2 font-semibold"
-            >
-              <FaFileExport />
-              Export
-            </button>
-            
-            <button
-              onClick={() => setShowModal(true)}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 flex items-center gap-2 font-semibold shadow-lg hover:shadow-xl"
-            >
-              <FaPlus />
-              Add Product
-            </button>
-          </div>
+        {/* Action Buttons - Responsive Grid */}
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 mb-4">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`px-3 sm:px-4 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+              showFilters
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <FaFilter />
+            <span className="hidden sm:inline">Filters</span>
+          </button>
+          
+          <button
+            onClick={exportToCSV}
+            className="px-3 sm:px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm"
+          >
+            <FaFileExport />
+            <span className="hidden sm:inline">Export</span>
+          </button>
+          
+          <button
+            onClick={() => setShowModal(true)}
+            className="col-span-2 sm:col-span-1 sm:flex-1 px-4 sm:px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 flex items-center justify-center gap-2 font-semibold shadow-lg hover:shadow-xl text-sm sm:text-base"
+          >
+            <FaPlus />
+            Add Product
+          </button>
         </div>
 
         {/* Filters Panel */}
@@ -397,105 +395,192 @@ const Inventory = () => {
         )}
       </div>
 
-      {/* Products Table */}
+      {/* Products Table/Cards */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
           <Loader />
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
-                <tr>
-                  <th className="text-left py-4 px-6 font-bold">Product Name</th>
-                  <th className="text-left py-4 px-6 font-bold">SKU</th>
-                  <th className="text-left py-4 px-6 font-bold">Category</th>
-                  <th className="text-right py-4 px-6 font-bold">Cost</th>
-                  <th className="text-right py-4 px-6 font-bold">Price</th>
-                  <th className="text-center py-4 px-6 font-bold">Stock</th>
-                  <th className="text-right py-4 px-6 font-bold">Value</th>
-                  <th className="text-center py-4 px-6 font-bold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.length === 0 ? (
+        <>
+          {/* Desktop Table View - Hidden on Mobile */}
+          <div className="hidden md:block bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
                   <tr>
-                    <td colSpan="8" className="text-center py-16">
-                      <FaBox className="text-6xl text-gray-300 mx-auto mb-4" />
-                      <p className="text-xl text-gray-400 font-semibold">No products found</p>
-                      <p className="text-gray-500 mt-2">
-                        {searchTerm || filterCategory !== 'all' || filterStock !== 'all'
-                          ? 'Try adjusting your filters'
-                          : 'Add your first product to get started'}
-                      </p>
-                    </td>
+                    <th className="text-left py-4 px-6 font-bold">Product Name</th>
+                    <th className="text-left py-4 px-6 font-bold">SKU</th>
+                    <th className="text-left py-4 px-6 font-bold">Category</th>
+                    <th className="text-right py-4 px-6 font-bold">Cost</th>
+                    <th className="text-right py-4 px-6 font-bold">Price</th>
+                    <th className="text-center py-4 px-6 font-bold">Stock</th>
+                    <th className="text-right py-4 px-6 font-bold">Value</th>
+                    <th className="text-center py-4 px-6 font-bold">Actions</th>
                   </tr>
-                ) : (
-                  filteredProducts.map((product, index) => (
-                    <tr
-                      key={product.id}
-                      className={`border-b border-gray-100 hover:bg-blue-50 transition-colors ${
-                        index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                      }`}
-                    >
-                      <td className="py-4 px-6">
-                        <div className="font-semibold text-gray-800">{product.name}</div>
-                        <div className="text-xs text-gray-500">{product.unit}</div>
-                      </td>
-                      <td className="py-4 px-6 text-gray-600 font-mono text-sm">{product.sku || '-'}</td>
-                      <td className="py-4 px-6">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                          {product.category || 'General'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-6 text-right text-gray-600">
-                        ₹{parseFloat(product.purchasePrice || 0).toFixed(2)}
-                      </td>
-                      <td className="py-4 px-6 text-right font-bold text-gray-900">
-                        ₹{parseFloat(product.sellingPrice || 0).toFixed(2)}
-                      </td>
-                      <td className="py-4 px-6 text-center">
-                        <span
-                          className={`px-3 py-1 rounded-full text-sm font-bold ${
-                            product.stock === 0
-                              ? 'bg-red-100 text-red-700'
-                              : product.stock <= (product.minStock || 0)
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-green-100 text-green-700'
-                          }`}
-                        >
-                          {product.stock}
-                        </span>
-                      </td>
-                      <td className="py-4 px-6 text-right font-semibold text-green-600">
-                        ₹{(product.stock * product.sellingPrice).toFixed(2)}
-                      </td>
-                      <td className="py-4 px-6">
-                        <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={() => handleEdit(product)}
-                            className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                            title="Edit"
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product.id)}
-                            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                            title="Delete"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
+                </thead>
+                <tbody>
+                  {filteredProducts.length === 0 ? (
+                    <tr>
+                      <td colSpan="8" className="text-center py-16">
+                        <FaBox className="text-6xl text-gray-300 mx-auto mb-4" />
+                        <p className="text-xl text-gray-400 font-semibold">No products found</p>
+                        <p className="text-gray-500 mt-2">
+                          {searchTerm || filterCategory !== 'all' || filterStock !== 'all'
+                            ? 'Try adjusting your filters'
+                            : 'Add your first product to get started'}
+                        </p>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    filteredProducts.map((product, index) => (
+                      <tr
+                        key={product.id}
+                        className={`border-b border-gray-100 hover:bg-blue-50 transition-colors ${
+                          index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                        }`}
+                      >
+                        <td className="py-4 px-6">
+                          <div className="font-semibold text-gray-800">{product.name}</div>
+                          <div className="text-xs text-gray-500">{product.unit}</div>
+                        </td>
+                        <td className="py-4 px-6 text-gray-600 font-mono text-sm">{product.sku || '-'}</td>
+                        <td className="py-4 px-6">
+                          <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                            {product.category || 'General'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 text-right text-gray-600">
+                          ₹{parseFloat(product.purchasePrice || 0).toFixed(2)}
+                        </td>
+                        <td className="py-4 px-6 text-right font-bold text-gray-900">
+                          ₹{parseFloat(product.sellingPrice || 0).toFixed(2)}
+                        </td>
+                        <td className="py-4 px-6 text-center">
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-bold ${
+                              product.stock === 0
+                                ? 'bg-red-100 text-red-700'
+                                : product.stock <= (product.minStock || 0)
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-green-100 text-green-700'
+                            }`}
+                          >
+                            {product.stock}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 text-right font-semibold text-green-600">
+                          ₹{(product.stock * product.sellingPrice).toFixed(2)}
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleEdit(product)}
+                              className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                              title="Edit"
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(product.id)}
+                              className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                              title="Delete"
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+
+          {/* Mobile Card View - Shown only on Mobile */}
+          <div className="md:hidden space-y-4">
+            {filteredProducts.length === 0 ? (
+              <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+                <FaBox className="text-6xl text-gray-300 mx-auto mb-4" />
+                <p className="text-xl text-gray-400 font-semibold">No products found</p>
+                <p className="text-gray-500 mt-2">
+                  {searchTerm || filterCategory !== 'all' || filterStock !== 'all'
+                    ? 'Try adjusting your filters'
+                    : 'Add your first product to get started'}
+                </p>
+              </div>
+            ) : (
+              filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-2xl shadow-lg p-4 border-l-4 border-blue-500"
+                >
+                  {/* Product Header */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-gray-800 text-lg mb-1">{product.name}</h3>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs text-gray-500 font-mono">{product.sku || 'No SKU'}</span>
+                        <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                          {product.category || 'General'}
+                        </span>
+                      </div>
+                    </div>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap ml-2 ${
+                        product.stock === 0
+                          ? 'bg-red-100 text-red-700'
+                          : product.stock <= (product.minStock || 0)
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : 'bg-green-100 text-green-700'
+                      }`}
+                    >
+                      Stock: {product.stock}
+                    </span>
+                  </div>
+
+                  {/* Product Details */}
+                  <div className="grid grid-cols-2 gap-3 mb-3 text-sm">
+                    <div>
+                      <p className="text-gray-500 text-xs">Cost Price</p>
+                      <p className="text-gray-800 font-semibold">₹{parseFloat(product.purchasePrice || 0).toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-xs">Selling Price</p>
+                      <p className="text-gray-900 font-bold">₹{parseFloat(product.sellingPrice || 0).toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-xs">Unit</p>
+                      <p className="text-gray-800 font-semibold">{product.unit}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-xs">Total Value</p>
+                      <p className="text-green-600 font-bold">₹{(product.stock * product.sellingPrice).toFixed(2)}</p>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-3 border-t border-gray-100">
+                    <button
+                      onClick={() => handleEdit(product)}
+                      className="flex-1 py-2 px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 font-semibold text-sm"
+                    >
+                      <FaEdit />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(product.id)}
+                      className="flex-1 py-2 px-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2 font-semibold text-sm"
+                    >
+                      <FaTrash />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </>
       )}
 
       {/* Add/Edit Modal */}
