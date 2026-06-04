@@ -93,6 +93,50 @@ const createInvoice = asyncHandler(async (req, res) => {
     total,
   } = req.body;
   
+  // Import Product and StockMovement models
+  const { Product, StockMovement } = require('../models');
+  
+  // Validate stock availability for all items
+  const stockErrors = [];
+  const productsToUpdate = [];
+  
+  for (const item of items) {
+    // Try to find product by name
+    const product = await Product.findOne({
+      where: {
+        name: item.name,
+        userId: req.user.id,
+      },
+    });
+    
+    if (product) {
+      // Check if enough stock is available
+      if (product.stock < item.quantity) {
+        stockErrors.push({
+          name: item.name,
+          available: product.stock,
+          requested: item.quantity,
+        });
+      } else {
+        // Track products to update
+        productsToUpdate.push({
+          product,
+          quantity: item.quantity,
+        });
+      }
+    }
+    // If product not found in inventory, allow manual entry (won't affect stock)
+  }
+  
+  // If there are stock errors, return error
+  if (stockErrors.length > 0) {
+    res.status(400);
+    const errorMsg = stockErrors
+      .map(e => `${e.name}: requested ${e.requested}, only ${e.available} available`)
+      .join('; ');
+    throw new Error(`Insufficient stock - ${errorMsg}`);
+  }
+  
   // Generate unique invoice number
   const invoiceNumber = await generateInvoiceNumber();
   
@@ -114,6 +158,28 @@ const createInvoice = asyncHandler(async (req, res) => {
   }));
   
   await InvoiceItem.bulkCreate(invoiceItems);
+  
+  // Update product stock and create stock movements
+  for (const { product, quantity } of productsToUpdate) {
+    const previousStock = product.stock;
+    const newStock = previousStock - quantity;
+    
+    // Update product stock
+    await product.update({ stock: newStock });
+    
+    // Create stock movement record
+    await StockMovement.create({
+      productId: product.id,
+      type: 'out',
+      quantity: quantity,
+      previousStock,
+      newStock,
+      reason: `Sold via invoice ${invoiceNumber}`,
+      referenceType: 'invoice',
+      referenceId: invoice.id,
+      userId: req.user.id,
+    });
+  }
   
   // Fetch complete invoice with items
   const completeInvoice = await Invoice.findByPk(invoice.id, {

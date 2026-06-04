@@ -34,6 +34,8 @@ const Billing = () => {
     name: '',
     quantity: 1,
     price: 0,
+    productId: null,
+    availableStock: null,
   });
 
   // Edit mode
@@ -93,16 +95,29 @@ const Billing = () => {
   const handleProductSelect = (e) => {
     const productId = e.target.value;
     if (!productId) {
-      setCurrentItem({ name: '', quantity: 1, price: 0 });
+      setCurrentItem({ name: '', quantity: 1, price: 0, productId: null, availableStock: null });
       return;
     }
 
     const selectedProduct = products.find(p => p.id === parseInt(productId));
     if (selectedProduct) {
+      // Check stock status
+      const isOutOfStock = selectedProduct.stock === 0;
+      const isLowStock = selectedProduct.stock > 0 && selectedProduct.stock <= selectedProduct.minStock;
+      
+      // Show warning for low or out of stock
+      if (isOutOfStock) {
+        toast.error(`${selectedProduct.name} is OUT OF STOCK!`);
+      } else if (isLowStock) {
+        toast.warning(`${selectedProduct.name} is LOW ON STOCK (Only ${selectedProduct.stock} remaining)`);
+      }
+      
       setCurrentItem({
         name: selectedProduct.name,
         quantity: 1,
         price: parseFloat(selectedProduct.sellingPrice) || 0,
+        productId: selectedProduct.id,
+        availableStock: selectedProduct.stock,
       });
     }
   };
@@ -126,6 +141,19 @@ const Billing = () => {
     if (currentItem.price <= 0) {
       toast.error('Price must be greater than 0');
       return;
+    }
+    
+    // Check stock availability if product is from inventory
+    if (currentItem.availableStock !== null && currentItem.availableStock !== undefined) {
+      if (currentItem.quantity > currentItem.availableStock) {
+        toast.error(`Cannot add ${currentItem.quantity} ${currentItem.name}. Only ${currentItem.availableStock} available in stock!`);
+        return;
+      }
+      
+      // Check if this would make stock go to zero
+      if (currentItem.quantity === currentItem.availableStock) {
+        toast.warning(`This will use all available stock of ${currentItem.name}!`);
+      }
     }
 
     const itemTotal = currentItem.quantity * currentItem.price;
@@ -157,6 +185,8 @@ const Billing = () => {
       name: '',
       quantity: 1,
       price: 0,
+      productId: null,
+      availableStock: null,
     });
   };
 
@@ -324,14 +354,44 @@ const Billing = () => {
             disabled={loadingProducts}
           >
             <option value="">-- Select a product or type manually below --</option>
-            {products.map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.name} - ₹{parseFloat(product.sellingPrice).toFixed(2)} (Stock: {product.stock})
-              </option>
-            ))}
+            {products.map((product) => {
+              const isOutOfStock = product.stock === 0;
+              const isLowStock = product.stock > 0 && product.stock <= product.minStock;
+              const stockStatus = isOutOfStock ? '⛔ OUT OF STOCK' : isLowStock ? '⚠️ LOW STOCK' : '✓';
+              
+              return (
+                <option 
+                  key={product.id} 
+                  value={product.id}
+                  disabled={isOutOfStock}
+                  style={{
+                    color: isOutOfStock ? '#dc2626' : isLowStock ? '#ea580c' : '#059669',
+                    fontWeight: isOutOfStock || isLowStock ? 'bold' : 'normal'
+                  }}
+                >
+                  {stockStatus} {product.name} - ₹{parseFloat(product.sellingPrice).toFixed(2)} (Stock: {product.stock})
+                </option>
+              );
+            })}
           </select>
           {loadingProducts && (
             <p className="text-sm text-gray-500 mt-1">Loading products...</p>
+          )}
+          {currentItem.availableStock !== null && currentItem.availableStock !== undefined && (
+            <p className={`text-sm mt-1 font-semibold ${
+              currentItem.availableStock === 0 
+                ? 'text-red-600' 
+                : currentItem.availableStock <= 10 
+                ? 'text-orange-600' 
+                : 'text-green-600'
+            }`}>
+              {currentItem.availableStock === 0 
+                ? '⛔ OUT OF STOCK' 
+                : currentItem.availableStock <= 10
+                ? `⚠️ LOW STOCK: Only ${currentItem.availableStock} units available`
+                : `✓ ${currentItem.availableStock} units available`
+              }
+            </p>
           )}
         </div>
 

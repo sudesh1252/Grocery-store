@@ -45,25 +45,69 @@ const Inventory = () => {
     setLoading(true);
     try {
       const response = await api.get('/inventory');
-      console.log('API Response:', response); // Debug log
+      console.log('🔍 API Response:', response); // Debug log
       
       // Handle response - api interceptor already returns response.data
       // So response = {success: true, count: X, data: [...]}
       const productsData = response.data || response || [];
-      console.log('Products Data:', productsData); // Debug log
+      console.log('📦 Products Data:', productsData); // Debug log
       
       setProducts(Array.isArray(productsData) ? productsData : []);
       
-      // Calculate stats
+      // Calculate stats with detailed logging
       const productArray = Array.isArray(productsData) ? productsData : [];
+      console.log('📊 Total products:', productArray.length);
+      
+      // Debug each product's stock status
+      productArray.forEach(p => {
+        const stock = Number(p.stock) || 0;
+        const minStock = Number(p.minStock) || 10;
+        const isLow = stock > 0 && stock <= minStock;
+        const isOut = stock === 0;
+        console.log(`📦 ${p.name}:`, {
+          stock,
+          minStock,
+          raw_stock: p.stock,
+          raw_minStock: p.minStock,
+          isLowStock: isLow,
+          isOutOfStock: isOut
+        });
+      });
+      
       const total = productArray.length;
-      const lowStock = productArray.filter(p => p.stock <= p.minStock && p.stock > 0).length;
-      const outOfStock = productArray.filter(p => p.stock === 0).length;
-      const totalValue = productArray.reduce((sum, p) => sum + (p.stock * p.sellingPrice), 0);
+      
+      const lowStockProducts = productArray.filter(p => {
+        const stock = Number(p.stock) || 0;
+        const minStock = Number(p.minStock) || 10;
+        const result = stock > 0 && stock <= minStock;
+        if (result) {
+          console.log(`⚠️ Low Stock: ${p.name} - Stock: ${stock}, MinStock: ${minStock}`);
+        }
+        return result;
+      });
+      const lowStock = lowStockProducts.length;
+      
+      const outOfStockProducts = productArray.filter(p => {
+        const stock = Number(p.stock) || 0;
+        const result = stock === 0;
+        if (result) {
+          console.log(`🚫 Out of Stock: ${p.name} - Stock: ${stock}`);
+        }
+        return result;
+      });
+      const outOfStock = outOfStockProducts.length;
+      
+      const totalValue = productArray.reduce((sum, p) => {
+        const stock = Number(p.stock) || 0;
+        const price = Number(p.sellingPrice) || 0;
+        return sum + (stock * price);
+      }, 0);
+      
+      console.log('📊 Final Stats:', { total, lowStock, outOfStock, totalValue }); // Debug log
       
       setStats({ total, lowStock, outOfStock, totalValue });
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('❌ Error fetching products:', error);
       toast.error(error || 'Failed to load products');
     } finally {
       setLoading(false);
@@ -175,11 +219,15 @@ const Inventory = () => {
     // Stock filter
     let matchesStock = true;
     if (filterStock === 'low') {
-      matchesStock = product.stock <= product.minStock && product.stock > 0;
+      const stock = Number(product.stock) || 0;
+      const minStock = Number(product.minStock) || 10;
+      matchesStock = stock > 0 && stock <= minStock;
     } else if (filterStock === 'out') {
-      matchesStock = product.stock === 0;
+      matchesStock = Number(product.stock) === 0;
     } else if (filterStock === 'good') {
-      matchesStock = product.stock > product.minStock;
+      const stock = Number(product.stock) || 0;
+      const minStock = Number(product.minStock) || 10;
+      matchesStock = stock > minStock;
     }
     
     return matchesSearch && matchesCategory && matchesStock;
@@ -458,9 +506,9 @@ const Inventory = () => {
                         <td className="py-4 px-6 text-center">
                           <span
                             className={`px-3 py-1 rounded-full text-sm font-bold ${
-                              product.stock === 0
+                              Number(product.stock) === 0
                                 ? 'bg-red-100 text-red-700'
-                                : product.stock <= (product.minStock || 0)
+                                : Number(product.stock) <= Number(product.minStock || 10)
                                 ? 'bg-yellow-100 text-yellow-700'
                                 : 'bg-green-100 text-green-700'
                             }`}
@@ -528,9 +576,9 @@ const Inventory = () => {
                     </div>
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap ml-2 ${
-                        product.stock === 0
+                        Number(product.stock) === 0
                           ? 'bg-red-100 text-red-700'
-                          : product.stock <= (product.minStock || 0)
+                          : Number(product.stock) <= Number(product.minStock || 10)
                           ? 'bg-yellow-100 text-yellow-700'
                           : 'bg-green-100 text-green-700'
                       }`}
