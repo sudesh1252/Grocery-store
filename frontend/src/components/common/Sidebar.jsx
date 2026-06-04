@@ -10,8 +10,7 @@ import {
   FaTimes,
   FaShoppingCart,
   FaChartLine,
-  FaBox,
-  FaUserCircle
+  FaBox
 } from 'react-icons/fa';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -41,11 +40,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       path: '/reports', 
       icon: <FaChartLine className="text-xl" />, 
       label: 'Reports' 
-    },
-    { 
-      path: '/profile', 
-      icon: <FaUserCircle className="text-xl" />, 
-      label: 'Profile' 
     },
   ];
 
