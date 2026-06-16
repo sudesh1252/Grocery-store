@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Shree Grocery Store Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f4f4f4; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        h1 { color: #2563eb; margin-bottom: 10px; font-size: 32px; }
+        h2 { color: #1e40af; margin-top: 30px; margin-bottom: 15px; font-size: 24px; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; }
+        h3 { color: #3b82f6; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; }
+        ul { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .header { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 40px; margin: -40px -40px 30px -40px; text-align: center; }
+        .header h1 { color: white; margin-bottom: 10px; }
+        .header p { font-size: 18px; }
+        .contact-card { background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #3b82f6; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .contact-card h3 { color: #1e40af; margin-top: 0; }
+        .contact-method { display: flex; align-items: start; margin: 15px 0; }
+        .icon { font-size: 24px; margin-right: 15px; color: #3b82f6; min-width: 30px; }
+        .info { flex: 1; }
+        .info strong { color: #1e40af; display: block; font-size: 16px; }
+        .info p { margin: 5px 0; color: #555; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 4px solid #3b82f6; }
+        .card h3 { margin-top: 0; }
+        .hours-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .hours-table th, .hours-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        .hours-table th { background: #3b82f6; color: white; }
+        .hours-table tr:hover { background: #f9fafb; }
+        .important { background: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }
+        .cta-button { display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .social-btn { display: inline-flex; align-items: center; padding: 10px 20px; background: #fff; border: 2px solid #3b82f6; border-radius: 8px; text-decoration: none; color: #3b82f6; font-weight: bold; transition: all 0.3s; }
+        .social-btn:hover { background: #3b82f6; color: white; }
+        strong { color: #1e40af; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📞 Contact Us</h1>
+            <p>We're Here to Help You Succeed!</p>
+            <p>Get in touch with our friendly support team</p>
+        </div>
+
+        <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">
+            Have questions about our Grocery Store Management System? Need support or want to schedule a demo?<br>
+            <strong>We're here for you!</strong> Choose your preferred way to contact us below.
+        </p>
+
+        <div class="contact-card">
+            <h3>🏢 Business Information</h3>
+            <p><strong>Company Name:</strong> Shree Grocery Solutions</p>
+            <p><strong>Product:</strong> Grocery Store Management System - Complete POS & Billing Software</p>
+            <p><strong>Serving:</strong> Small to Medium Grocery Stores, Kirana Shops, Mini Supermarkets across India</p>
+            <p><strong>Website:</strong> <a href="https://grocery-store-wheat-psi.vercel.app/" target="_blank">https://grocery-store-wheat-psi.vercel.app/</a></p>
+        </div>
+
+        <h2>📱 Primary Contact Methods</h2>
+
+        <div class="grid">
+            <div class="card">
+                <div class="contact-method">
+                    <div class="icon">📧</div>
+                    <div class="info">
+                        <strong>Email Support</strong>
+                        <p><strong>General Inquiries:</strong><br>support@shreegrocery.com</p>
+                        <p><strong>Sales & Demo:</strong><br>sales@shreegrocery.com</p>
+                        <p><strong>Technical Support:</strong><br>tech@shreegrocery.com</p>
+                        <p><strong>Refunds:</strong><br>refunds@shreegrocery.com</p>
+                        <p style="color: #10b981; font-weight: bold;">⏰ Response within 24 hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="contact-method">
+                    <div class="icon">💬</div>
+                    <div class="info">
+                        <strong>WhatsApp Support (Fastest!)</strong>
+                        <p><strong>Support Number:</strong><br>+91-XXXXXXXXXX</p>
+                        <p><strong>What you can ask:</strong></p>
+                        <ul style="margin-left: 20px; color: #666;">
+                            <li>Product demo</li>
+                            <li>Installation help</li>
+                            <li>Technical issues</li>
+                            <li>Pricing inquiries</li>
+                            <li>Quick questions</li>
+                        </ul>
+                        <p style="color: #10b981; font-weight: bold;">⏰ Available 9 AM - 9 PM IST</p>
+                        <a href="https://wa.me/91XXXXXXXXXX" class="cta-button" style="margin-top: 10px;">Chat on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="contact-method">
+                    <div class="icon">📞</div>
+                    <div class="info">
+                        <strong>Phone Support</strong>
+                        <p><strong>Customer Care:</strong><br>+91-XXXXXXXXXX</p>
+                        <p><strong>Sales Helpline:</strong><br>+91-XXXXXXXXXX</p>
+                        <p><strong>Premium Support:</strong><br>+91-XXXXXXXXXX<br>(For Premium customers only)</p>
+                        <p style="color: #666; font-size: 14px;">📞 Call charges may apply</p>
+                        <p style="color: #10b981; font-weight: bold;">⏰ Mon-Sat: 9 AM - 9 PM IST</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="contact-method">
+                    <div class="icon">📍</div>
+                    <div class="info">
+                        <strong>Office Address</strong>
+                        <p><strong>Shree Grocery Solutions</strong><br>
+                        [Building Name/Number]<br>
+                        [Street Address]<br>
+                        [City, State - PIN CODE]<br>
+                        India</p>
+                        <p style="color: #666; font-size: 14px; margin-top: 10px;">
+                            <strong>Note:</strong> We primarily operate remotely. For on-site installation, please contact us in advance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🕐 Business Hours</h2>
+        <table class="hours-table">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Days</th>
+                    <th>Hours (IST)</th>
+                    <th>Response Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>WhatsApp Support</strong></td>
+                    <td>Monday - Sunday</td>
+                    <td>9:00 AM - 9:00 PM</td>
+                    <td>Within 1 hour</td>
+                </tr>
+                <tr>
+                    <td><strong>Email Support</strong></td>
+                    <td>24/7</td>
+                    <td>Always accepting</td>
+                    <td>Within 24 hours</td>
+                </tr>
+                <tr>
+                    <td><strong>Phone Support</strong></td>
+                    <td>Monday - Saturday</td>
+                    <td>9:00 AM - 9:00 PM</td>
+                    <td>Immediate</td>
+                </tr>
+                <tr>
+                    <td><strong>Sales Inquiries</strong></td>
+                    <td>Monday - Sunday</td>
+                    <td>9:00 AM - 10:00 PM</td>
+                    <td>Within 2 hours</td>
+                </tr>
+                <tr>
+                    <td><strong>Premium Support</strong></td>
+                    <td>Monday - Sunday</td>
+                    <td>8:00 AM - 11:00 PM</td>
+                    <td>Priority (30 mins)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="important">
+            <p><strong>🎯 Emergency Support:</strong></p>
+            <p>For critical issues affecting your business operations, contact us on WhatsApp marked as "URGENT" and we'll prioritize your request even outside business hours.</p>
+        </div>
+
+        <h2>💼 What Can We Help You With?</h2>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🛒 Pre-Sales Support</h3>
+                <ul>
+                    <li>Product demo & features</li>
+                    <li>Pricing & packages</li>
+                    <li>System requirements</li>
+                    <li>Customization options</li>
+                    <li>Bulk/multi-store pricing</li>
+                    <li>Free trial information</li>
+                </ul>
+                <a href="mailto:sales@shreegrocery.com" class="cta-button">Contact Sales</a>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Technical Support</h3>
+                <ul>
+                    <li>Installation assistance</li>
+                    <li>Software configuration</li>
+                    <li>Troubleshooting errors</li>
+                    <li>Database setup</li>
+                    <li>Performance issues</li>
+                    <li>Bug reports</li>
+                </ul>
+                <a href="mailto:tech@shreegrocery.com" class="cta-button">Get Tech Support</a>
+            </div>
+
+            <div class="card">
+                <h3>📚 Training & Onboarding</h3>
+                <ul>
+                    <li>New user training</li>
+                    <li>Feature walkthroughs</li>
+                    <li>Best practices</li>
+                    <li>Staff training sessions</li>
+                    <li>Video tutorials</li>
+                    <li>User manual requests</li>
+                </ul>
+                <a href="https://wa.me/91XXXXXXXXXX?text=I need training" class="cta-button">Request Training</a>
+            </div>
+
+            <div class="card">
+                <h3>💰 Billing & Payments</h3>
+                <ul>
+                    <li>Payment issues</li>
+                    <li>Invoice requests</li>
+                    <li>Refund inquiries</li>
+                    <li>Subscription changes</li>
+                    <li>Renewal reminders</li>
+                    <li>Payment methods</li>
+                </ul>
+                <a href="mailto:billing@shreegrocery.com" class="cta-button">Billing Support</a>
+            </div>
+        </div>
+
+        <h2>🎯 Quick Actions</h2>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want a product demo" class="cta-button">
+                📹 Schedule a Demo
+            </a>
+            <a href="https://wa.me/91XXXXXXXXXX?text=I need help with installation" class="cta-button">
+                🔧 Get Installation Help
+            </a>
+            <a href="mailto:sales@shreegrocery.com?subject=Pricing Inquiry" class="cta-button">
+                💰 Get Pricing
+            </a>
+            <a href="https://wa.me/91XXXXXXXXXX?text=I have a technical issue" class="cta-button">
+                🆘 Report Issue
+            </a>
+        </div>
+
+        <h2>🌐 Connect With Us Online</h2>
+
+        <div class="contact-card">
+            <h3>Social Media & Online Presence</h3>
+            <div class="social-links">
+                <a href="https://facebook.com/shreegrocerysolutions" class="social-btn" target="_blank">
+                    📘 Facebook
+                </a>
+                <a href="https://instagram.com/shreegrocerysolutions" class="social-btn" target="_blank">
+                    📸 Instagram
+                </a>
+                <a href="https://youtube.com/@shreegrocerysolutions" class="social-btn" target="_blank">
+                    ▶️ YouTube
+                </a>
+                <a href="https://twitter.com/shreegrocery" class="social-btn" target="_blank">
+                    🐦 Twitter
+                </a>
+                <a href="https://linkedin.com/company/shreegrocery" class="social-btn" target="_blank">
+                    💼 LinkedIn
+                </a>
+            </div>
+            <p style="margin-top: 20px; color: #666;">
+                Follow us for product updates, tips & tricks, video tutorials, and special offers!
+            </p>
+        </div>
+
+        <h2>📝 Feedback & Suggestions</h2>
+
+        <div class="contact-card">
+            <h3>We Value Your Feedback!</h3>
+            <p>Help us improve our software and service. Your suggestions are important to us.</p>
+            <p><strong>Send Feedback to:</strong> feedback@shreegrocery.com</p>
+            <p><strong>Feature Requests:</strong> features@shreegrocery.com</p>
+            <p><strong>Report Bugs:</strong> bugs@shreegrocery.com</p>
+            <p style="margin-top: 15px; padding: 15px; background: #d1fae5; border-radius: 5px;">
+                <strong>💝 Love our software?</strong> Share your testimonial or review with us! We might feature it on our website.
+            </p>
+        </div>
+
+        <h2>🤝 Partnership & Bulk Orders</h2>
+
+        <div class="card">
+            <h3>Interested in Partnering or Bulk Purchase?</h3>
+            <p>We offer special programs for:</p>
+            <ul>
+                <li><strong>Resellers:</strong> Sell our software in your area and earn commission</li>
+                <li><strong>Distributors:</strong> Become an authorized distributor</li>
+                <li><strong>Chain Stores:</strong> Special pricing for 5+ locations</li>
+                <li><strong>Franchise Operators:</strong> Bulk licensing discounts</li>
+                <li><strong>IT Consultants:</strong> Partner with us for your grocery clients</li>
+            </ul>
+            <p><strong>Contact Partnership Team:</strong></p>
+            <p>📧 partnerships@shreegrocery.com</p>
+            <p>📱 WhatsApp: +91-XXXXXXXXXX (Ask for "Partnership")</p>
+        </div>
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <div class="card">
+            <p><strong>Q: How quickly will I get a response?</strong></p>
+            <p>A: WhatsApp queries are usually answered within 1 hour during business hours. Email responses within 24 hours.</p>
+            <br>
+            <p><strong>Q: Do you provide free demos?</strong></p>
+            <p>A: Yes! Contact us via WhatsApp or email to schedule a free live demo.</p>
+            <br>
+            <p><strong>Q: Can you visit my store for installation?</strong></p>
+            <p>A: Yes, on-site installation is available in select cities. Contact us for availability and charges.</p>
+            <br>
+            <p><strong>Q: Is support available on Sundays?</strong></p>
+            <p>A: WhatsApp support is available on Sundays. Email support is 24/7. Phone support is closed on Sundays.</p>
+            <br>
+            <p><strong>Q: How do I contact you after business hours?</strong></p>
+            <p>A: Send us an email or WhatsApp message and we'll respond when business hours resume. For urgent issues, mark your message as "URGENT".</p>
+        </div>
+
+        <h2>🗺️ Service Areas</h2>
+
+        <div class="contact-card">
+            <h3>We Serve All of India!</h3>
+            <p><strong>Remote Support:</strong> Available nationwide</p>
+            <p><strong>On-Site Installation Available in:</strong></p>
+            <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+                <li>Mumbai</li>
+                <li>Delhi/NCR</li>
+                <li>Bangalore</li>
+                <li>Pune</li>
+                <li>Hyderabad</li>
+                <li>Chennai</li>
+                <li>Ahmedabad</li>
+                <li>Kolkata</li>
+                <li>Surat</li>
+                <li>Jaipur</li>
+                <li>[Your City]</li>
+                <li>+ More cities</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Not in the list?</strong> Contact us anyway! We can arrange remote installation or partner with local technicians.</p>
+        </div>
+
+        <div class="important" style="background: #d1fae5; border-left-color: #10b981; margin-top: 40px;">
+            <h3 style="color: #065f46;">🌟 Why Customers Love Our Support</h3>
+            <ul style="color: #065f46;">
+                <li>✅ Fast response times</li>
+                <li>✅ Friendly and patient support team</li>
+                <li>✅ Multiple contact options</li>
+                <li>✅ Free training and onboarding</li>
+                <li>✅ Long-term support commitment</li>
+                <li>✅ Solutions in Hindi and English</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%); border-radius: 10px;">
+            <h2 style="color: #1e40af; margin-bottom: 15px;">Ready to Get Started?</h2>
+            <p style="font-size: 18px; margin-bottom: 25px;">Contact us today for a free demo and see how our software can transform your grocery business!</p>
+            <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I'm interested in your Grocery Store Management System" class="cta-button" style="font-size: 18px; padding: 18px 40px;">
+                💬 Start Chat on WhatsApp
+            </a>
+            <a href="mailto:sales@shreegrocery.com?subject=Demo Request&body=Hi, I would like to schedule a demo for your Grocery Store Management System." class="cta-button" style="font-size: 18px; padding: 18px 40px;">
+                📧 Email Us
+            </a>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #666;">
+            © 2026 Shree Grocery Solutions. All Rights Reserved.<br>
+            <strong>📞 We're Here to Help You Succeed!</strong>
+        </p>
+    </div>
+</body>
+</html>
