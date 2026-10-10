@@ -105,77 +105,77 @@ const Reports = () => {
         }
       `}</style>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 md:p-8">
         {/* Header - No Print */}
-        <div className="mb-8 no-print">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+        <div className="mb-6 md:mb-8 no-print">
+          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
             {reportType === 'inventory' ? 'Inventory Report' : 'Sales Reports'}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-sm md:text-base text-gray-600">
             {reportType === 'inventory' ? 'Monitor your stock levels and inventory value' : 'Analyze your business performance'}
           </p>
         </div>
 
         {/* Controls Card - No Print */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 no-print">
+        <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-6 md:mb-8 no-print">
           {/* Report Type Buttons */}
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4 md:mb-6">
             <button
               onClick={() => setReportType('daily')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+              className={`px-3 md:px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base ${
                 reportType === 'daily'
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <FaCalendarDay className="text-lg" />
-              Daily
+              <FaCalendarDay className="text-base md:text-lg" />
+              <span>Daily</span>
             </button>
             <button
               onClick={() => setReportType('monthly')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+              className={`px-3 md:px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base ${
                 reportType === 'monthly'
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <FaCalendarAlt className="text-lg" />
-              Monthly
+              <FaCalendarAlt className="text-base md:text-lg" />
+              <span>Monthly</span>
             </button>
             <button
               onClick={() => setReportType('yearly')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+              className={`px-3 md:px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base ${
                 reportType === 'yearly'
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <FaCalendar className="text-lg" />
-              Yearly
+              <FaCalendar className="text-base md:text-lg" />
+              <span>Yearly</span>
             </button>
             <button
               onClick={() => setReportType('inventory')}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+              className={`px-3 md:px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base ${
                 reportType === 'inventory'
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <FaBoxes className="text-lg" />
-              Inventory
+              <FaBoxes className="text-base md:text-lg" />
+              <span>Inventory</span>
             </button>
           </div>
 
           {/* Date Selectors and Action Buttons */}
-          <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center md:justify-between">
             {/* Date Selectors */}
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-2 md:gap-3 flex-wrap">
               {reportType === 'daily' && (
                 <input
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="flex-1 md:flex-initial px-3 md:px-4 py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               )}
               {reportType === 'monthly' && (
@@ -183,7 +183,7 @@ const Reports = () => {
                   <select
                     value={selectedMonth}
                     onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-                    className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="flex-1 md:flex-initial px-3 md:px-4 py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     {Array.from({ length: 12 }, (_, i) => (
                       <option key={i + 1} value={i + 1}>
@@ -197,7 +197,7 @@ const Reports = () => {
                     onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                     min="2020"
                     max="2030"
-                    className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent w-28 transition-all"
+                    className="w-24 md:w-28 px-3 md:px-4 py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </>
               )}
@@ -208,31 +208,31 @@ const Reports = () => {
                   onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                   min="2020"
                   max="2030"
-                  className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent w-28 transition-all"
+                  className="w-full md:w-28 px-3 md:px-4 py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               )}
               {reportType === 'inventory' && (
-                <div className="px-4 py-3 text-gray-600 font-semibold">
+                <div className="px-3 md:px-4 py-3 text-sm md:text-base text-gray-600 font-semibold">
                   Current Inventory Status
                 </div>
               )}
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3">
+            <div className="grid grid-cols-2 md:flex gap-2 md:gap-3">
               <button
                 onClick={printReport}
-                className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 flex items-center gap-2 font-semibold shadow-lg hover:shadow-xl"
+                className="px-4 md:px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 flex items-center justify-center gap-2 font-semibold shadow-lg hover:shadow-xl text-sm md:text-base"
               >
-                <FaPrint className="text-lg" />
-                Print
+                <FaPrint className="text-base md:text-lg" />
+                <span>Print</span>
               </button>
               <button
                 onClick={exportReport}
-                className="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 flex items-center gap-2 font-semibold shadow-lg hover:shadow-xl"
+                className="px-4 md:px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 flex items-center justify-center gap-2 font-semibold shadow-lg hover:shadow-xl text-sm md:text-base"
               >
-                <FaFileExport className="text-lg" />
-                Export
+                <FaFileExport className="text-base md:text-lg" />
+                <span>Export</span>
               </button>
             </div>
           </div>
@@ -261,79 +261,81 @@ const Reports = () => {
             {reportType === 'inventory' && (
               <>
                 {/* Inventory Summary Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-                  <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold">Total Products</h3>
-                      <FaBoxes className="text-3xl opacity-80" />
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 mb-6 md:mb-8">
+                  <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <h3 className="text-sm md:text-lg font-semibold">Total Products</h3>
+                      <FaBoxes className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                     </div>
-                    <p className="text-4xl font-bold mb-2">
+                    <p className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">
                       {reportData.data?.summary?.totalProducts || 0}
                     </p>
-                    <p className="text-sm opacity-90">Products in inventory</p>
+                    <p className="text-xs md:text-sm opacity-90">Products in inventory</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold">Total Stock</h3>
-                      <FaCheckCircle className="text-3xl opacity-80" />
+                  <div className="bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <h3 className="text-sm md:text-lg font-semibold">Total Stock</h3>
+                      <FaCheckCircle className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                     </div>
-                    <p className="text-4xl font-bold mb-2">
+                    <p className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">
                       {reportData.data?.summary?.totalStock || 0}
                     </p>
-                    <p className="text-sm opacity-90">Units in stock</p>
+                    <p className="text-xs md:text-sm opacity-90">Units in stock</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold">Total Value</h3>
-                      <FaRupeeSign className="text-3xl opacity-80" />
+                  <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <h3 className="text-sm md:text-lg font-semibold whitespace-nowrap">Total Value</h3>
+                      <FaRupeeSign className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                     </div>
-                    <p className="text-4xl font-bold mb-2">
-                      ₹{reportData.data?.summary?.totalValue?.toLocaleString('en-IN') || 0}
-                    </p>
-                    <p className="text-sm opacity-90">Inventory value</p>
+                    <div className="mb-1 md:mb-2">
+                      <p className="text-sm md:text-4xl font-bold leading-tight">
+                        ₹{reportData.data?.summary?.totalValue?.toLocaleString('en-IN') || 0}
+                      </p>
+                    </div>
+                    <p className="text-xs md:text-sm opacity-90">Inventory value</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold">Low Stock</h3>
-                      <FaExclamationTriangle className="text-3xl opacity-80" />
+                  <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <h3 className="text-sm md:text-lg font-semibold">Low Stock</h3>
+                      <FaExclamationTriangle className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                     </div>
-                    <p className="text-4xl font-bold mb-2">
+                    <p className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">
                       {reportData.data?.summary?.lowStockCount || 0}
                     </p>
-                    <p className="text-sm opacity-90">Items need restock</p>
+                    <p className="text-xs md:text-sm opacity-90">Items need restock</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold">Out of Stock</h3>
-                      <FaTimesCircle className="text-3xl opacity-80" />
+                  <div className="bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <h3 className="text-sm md:text-lg font-semibold whitespace-nowrap">Out of Stock</h3>
+                      <FaTimesCircle className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                     </div>
-                    <p className="text-4xl font-bold mb-2">
+                    <p className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">
                       {reportData.data?.summary?.outOfStockCount || 0}
                     </p>
-                    <p className="text-sm opacity-90">Items unavailable</p>
+                    <p className="text-xs md:text-sm opacity-90">Items unavailable</p>
                   </div>
                 </div>
 
                 {/* Category Breakdown */}
                 {reportData.data?.byCategory && reportData.data.byCategory.length > 0 && (
-                  <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                      <FaChartLine className="text-blue-600" />
-                      Inventory by Category
+                  <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-6 md:mb-8">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+                      <FaChartLine className="text-blue-600 text-lg md:text-xl" />
+                      <span className="text-base md:text-2xl">Inventory by Category</span>
                     </h2>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-3">
                       {reportData.data.byCategory.map((cat) => (
-                        <div key={cat.category} className="flex items-center gap-4">
-                          <div className="w-32 text-sm font-bold text-gray-700 capitalize">
+                        <div key={cat.category} className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                          <div className="w-full md:w-32 text-xs md:text-sm font-bold text-gray-700 capitalize">
                             {cat.category}
                           </div>
-                          <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-12">
+                          <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-10 md:h-12">
                             <div
-                              className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full flex items-center justify-between px-4 text-white font-bold transition-all duration-700 hover:from-blue-600 hover:to-cyan-600"
+                              className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full flex items-center justify-between px-2 md:px-4 text-white font-bold text-xs md:text-base transition-all duration-700 hover:from-blue-600 hover:to-cyan-600"
                               style={{
                                 width: `${Math.max((cat.value / Math.max(...reportData.data.byCategory.map((c) => c.value))) * 100, 5)}%`,
                               }}
@@ -342,7 +344,7 @@ const Reports = () => {
                               <span>₹{cat.value.toLocaleString('en-IN')}</span>
                             </div>
                           </div>
-                          <div className="w-24 text-sm text-gray-600 text-right">
+                          <div className="w-full md:w-24 text-xs md:text-sm text-gray-600 md:text-right">
                             {cat.stock} units
                           </div>
                         </div>
@@ -353,12 +355,14 @@ const Reports = () => {
 
                 {/* Products Table */}
                 {reportData.data?.products && reportData.data.products.length > 0 && (
-                  <div className="bg-white rounded-2xl shadow-xl p-6">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                      <FaBoxes className="text-blue-600" />
-                      All Products
+                  <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+                      <FaBoxes className="text-blue-600 text-lg md:text-xl" />
+                      <span className="text-base md:text-2xl">All Products</span>
                     </h2>
-                    <div className="overflow-x-auto">
+                    
+                    {/* Desktop Table View */}
+                    <div className="hidden md:block overflow-x-auto">
                       <table className="w-full">
                         <thead>
                           <tr className="border-b-2 border-gray-200">
@@ -419,15 +423,73 @@ const Reports = () => {
                         </tbody>
                       </table>
                     </div>
+
+                    {/* Mobile Card View */}
+                    <div className="md:hidden space-y-3">
+                      {reportData.data.products.map((product) => (
+                        <div key={product.id} className="bg-gradient-to-br from-gray-50 to-white rounded-xl border-2 border-gray-100 p-4 hover:shadow-lg transition-all">
+                          <div className="flex justify-between items-start mb-3">
+                            <div className="flex-1">
+                              <h3 className="font-bold text-gray-800 text-base mb-1">{product.name}</h3>
+                              <p className="text-xs text-gray-500">SKU: {product.sku}</p>
+                            </div>
+                            {product.stock === 0 ? (
+                              <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold whitespace-nowrap ml-2">
+                                Out of Stock
+                              </span>
+                            ) : product.stock <= product.minStock ? (
+                              <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold whitespace-nowrap ml-2">
+                                Low Stock
+                              </span>
+                            ) : (
+                              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold whitespace-nowrap ml-2">
+                                In Stock
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Category</p>
+                              <p className="text-sm font-semibold text-gray-700 capitalize">{product.category}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Stock</p>
+                              <p className={`text-sm font-bold ${
+                                product.stock === 0 
+                                  ? 'text-red-600' 
+                                  : product.stock <= product.minStock 
+                                  ? 'text-yellow-600' 
+                                  : 'text-green-600'
+                              }`}>
+                                {product.stock} units
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Price</p>
+                              <p className="text-sm font-semibold text-gray-700">
+                                ₹{parseFloat(product.sellingPrice).toLocaleString('en-IN')}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Total Value</p>
+                              <p className="text-sm font-bold text-blue-600">
+                                ₹{(product.stock * parseFloat(product.sellingPrice)).toLocaleString('en-IN')}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
                 {/* No Products Message */}
                 {(!reportData.data?.products || reportData.data.products.length === 0) && (
-                  <div className="bg-white rounded-2xl shadow-xl p-16 text-center">
-                    <FaBoxes className="text-8xl text-gray-300 mx-auto mb-6" />
-                    <p className="text-2xl font-bold text-gray-400 mb-2">No products in inventory</p>
-                    <p className="text-gray-500">Add products to see inventory report</p>
+                  <div className="bg-white rounded-2xl shadow-xl p-8 md:p-16 text-center">
+                    <FaBoxes className="text-6xl md:text-8xl text-gray-300 mx-auto mb-4 md:mb-6" />
+                    <p className="text-xl md:text-2xl font-bold text-gray-400 mb-2">No products in inventory</p>
+                    <p className="text-sm md:text-base text-gray-500">Add products to see inventory report</p>
                   </div>
                 )}
               </>
@@ -437,67 +499,73 @@ const Reports = () => {
             {reportType !== 'inventory' && (
               <>
                 {/* Summary Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold">Total Sales</h3>
-                  <FaRupeeSign className="text-3xl opacity-80" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                <div className="flex items-center justify-between mb-2 md:mb-3">
+                  <h3 className="text-sm md:text-lg font-semibold">Total Sales</h3>
+                  <FaRupeeSign className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                 </div>
-                <p className="text-4xl font-bold mb-2">
-                  ₹{reportData.data?.summary?.totalSales?.toLocaleString('en-IN') || 0}
-                </p>
-                <p className="text-sm opacity-90">
+                <div className="mb-1 md:mb-2">
+                  <p className="text-lg md:text-4xl font-bold leading-tight">
+                    ₹{reportData.data?.summary?.totalSales?.toLocaleString('en-IN') || 0}
+                  </p>
+                </div>
+                <p className="text-xs md:text-sm opacity-90">
                   {reportType === 'daily' && 'Today'}
                   {reportType === 'monthly' && 'This Month'}
                   {reportType === 'yearly' && 'This Year'}
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold">Total Invoices</h3>
-                  <FaFileInvoice className="text-3xl opacity-80" />
+              <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                <div className="flex items-center justify-between mb-2 md:mb-3">
+                  <h3 className="text-sm md:text-lg font-semibold">Total Invoices</h3>
+                  <FaFileInvoice className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                 </div>
-                <p className="text-4xl font-bold mb-2">
+                <p className="text-2xl md:text-4xl font-bold mb-1 md:mb-2">
                   {reportData.data?.summary?.totalInvoices || 0}
                 </p>
-                <p className="text-sm opacity-90">Invoices generated</p>
+                <p className="text-xs md:text-sm opacity-90">Invoices generated</p>
               </div>
 
-              <div className="bg-gradient-to-br from-teal-500 to-green-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold">Average Sale</h3>
-                  <FaChartLine className="text-3xl opacity-80" />
+              <div className="bg-gradient-to-br from-teal-500 to-green-500 rounded-2xl shadow-xl p-4 md:p-6 text-white transform hover:scale-105 transition-all duration-300 print-white">
+                <div className="flex items-center justify-between mb-2 md:mb-3">
+                  <h3 className="text-sm md:text-lg font-semibold">Average Sale</h3>
+                  <FaChartLine className="text-2xl md:text-3xl opacity-80 flex-shrink-0" />
                 </div>
-                <p className="text-4xl font-bold mb-2">
-                  ₹{((reportData.data?.summary?.totalSales || 0) / (reportData.data?.summary?.totalInvoices || 1)).toFixed(2)}
-                </p>
-                <p className="text-sm opacity-90">Per invoice</p>
+                <div className="mb-1 md:mb-2">
+                  <p className="text-lg md:text-4xl font-bold leading-tight">
+                    ₹{((reportData.data?.summary?.totalSales || 0) / (reportData.data?.summary?.totalInvoices || 1)).toFixed(2)}
+                  </p>
+                </div>
+                <p className="text-xs md:text-sm opacity-90">Per invoice</p>
               </div>
             </div>
 
             {/* Chart Section */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                <FaChartLine className="text-blue-600" />
-                {reportType === 'daily' && 'Hourly Sales Breakdown'}
-                {reportType === 'monthly' && 'Daily Sales Breakdown'}
-                {reportType === 'yearly' && 'Monthly Sales Breakdown'}
+            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 mb-6 md:mb-8">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+                <FaChartLine className="text-blue-600 text-lg md:text-xl" />
+                <span className="text-base md:text-2xl">
+                  {reportType === 'daily' && 'Hourly Sales Breakdown'}
+                  {reportType === 'monthly' && 'Daily Sales Breakdown'}
+                  {reportType === 'yearly' && 'Monthly Sales Breakdown'}
+                </span>
               </h2>
 
               {/* Bar Chart */}
-              <div className="space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {reportType === 'daily' &&
                   reportData.data?.salesByHour
                     ?.filter((item) => item.sales > 0)
                     .map((item) => (
-                      <div key={item.hour} className="flex items-center gap-4">
-                        <div className="w-20 text-sm font-bold text-gray-700">
+                      <div key={item.hour} className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                        <div className="w-full md:w-20 text-xs md:text-sm font-bold text-gray-700">
                           {item.hour}:00
                         </div>
-                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-12">
+                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-10 md:h-12">
                           <div
-                            className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full flex items-center justify-end px-4 text-white font-bold transition-all duration-700 hover:from-blue-600 hover:to-cyan-600"
+                            className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full flex items-center justify-end px-2 md:px-4 text-white font-bold text-xs md:text-base transition-all duration-700 hover:from-blue-600 hover:to-cyan-600"
                             style={{
                               width: `${Math.max((item.sales / Math.max(...reportData.data.salesByHour.map((h) => h.sales))) * 100, 5)}%`,
                             }}
@@ -505,7 +573,7 @@ const Reports = () => {
                             ₹{item.sales.toLocaleString('en-IN')}
                           </div>
                         </div>
-                        <div className="w-20 text-sm text-gray-600 text-right">
+                        <div className="w-full md:w-20 text-xs md:text-sm text-gray-600 md:text-right">
                           {item.invoices} bills
                         </div>
                       </div>
@@ -515,13 +583,13 @@ const Reports = () => {
                   reportData.data?.salesByDay
                     ?.filter((item) => item.sales > 0)
                     .map((item) => (
-                      <div key={item.day} className="flex items-center gap-4">
-                        <div className="w-20 text-sm font-bold text-gray-700">
+                      <div key={item.day} className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                        <div className="w-full md:w-20 text-xs md:text-sm font-bold text-gray-700">
                           Day {item.day}
                         </div>
-                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-12">
+                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-10 md:h-12">
                           <div
-                            className="bg-gradient-to-r from-indigo-500 to-purple-500 h-full flex items-center justify-end px-4 text-white font-bold transition-all duration-700 hover:from-indigo-600 hover:to-purple-600"
+                            className="bg-gradient-to-r from-indigo-500 to-purple-500 h-full flex items-center justify-end px-2 md:px-4 text-white font-bold text-xs md:text-base transition-all duration-700 hover:from-indigo-600 hover:to-purple-600"
                             style={{
                               width: `${Math.max((item.sales / Math.max(...reportData.data.salesByDay.map((d) => d.sales))) * 100, 5)}%`,
                             }}
@@ -529,7 +597,7 @@ const Reports = () => {
                             ₹{item.sales.toLocaleString('en-IN')}
                           </div>
                         </div>
-                        <div className="w-20 text-sm text-gray-600 text-right">
+                        <div className="w-full md:w-20 text-xs md:text-sm text-gray-600 md:text-right">
                           {item.invoices} bills
                         </div>
                       </div>
@@ -539,13 +607,13 @@ const Reports = () => {
                   reportData.data?.salesByMonth
                     ?.filter((item) => item.sales > 0)
                     .map((item) => (
-                      <div key={item.month} className="flex items-center gap-4">
-                        <div className="w-20 text-sm font-bold text-gray-700">
+                      <div key={item.month} className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                        <div className="w-full md:w-20 text-xs md:text-sm font-bold text-gray-700">
                           {new Date(2000, item.month - 1).toLocaleString('default', { month: 'short' })}
                         </div>
-                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-12">
+                        <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden h-10 md:h-12">
                           <div
-                            className="bg-gradient-to-r from-teal-500 to-green-500 h-full flex items-center justify-end px-4 text-white font-bold transition-all duration-700 hover:from-teal-600 hover:to-green-600"
+                            className="bg-gradient-to-r from-teal-500 to-green-500 h-full flex items-center justify-end px-2 md:px-4 text-white font-bold text-xs md:text-base transition-all duration-700 hover:from-teal-600 hover:to-green-600"
                             style={{
                               width: `${Math.max((item.sales / Math.max(...reportData.data.salesByMonth.map((m) => m.sales))) * 100, 5)}%`,
                             }}
@@ -553,7 +621,7 @@ const Reports = () => {
                             ₹{item.sales.toLocaleString('en-IN')}
                           </div>
                         </div>
-                        <div className="w-20 text-sm text-gray-600 text-right">
+                        <div className="w-full md:w-20 text-xs md:text-sm text-gray-600 md:text-right">
                           {item.invoices} bills
                         </div>
                       </div>
@@ -564,22 +632,24 @@ const Reports = () => {
               {((reportType === 'daily' && reportData.data?.salesByHour?.every((h) => h.sales === 0)) ||
                 (reportType === 'monthly' && reportData.data?.salesByDay?.every((d) => d.sales === 0)) ||
                 (reportType === 'yearly' && reportData.data?.salesByMonth?.every((m) => m.sales === 0))) && (
-                <div className="text-center py-12">
-                  <FaChartLine className="text-6xl mx-auto mb-4 text-gray-300" />
-                  <p className="text-xl font-bold text-gray-400 mb-2">No sales data available</p>
-                  <p className="text-gray-500">Start creating invoices to see reports</p>
+                <div className="text-center py-8 md:py-12">
+                  <FaChartLine className="text-4xl md:text-6xl mx-auto mb-3 md:mb-4 text-gray-300" />
+                  <p className="text-lg md:text-xl font-bold text-gray-400 mb-2">No sales data available</p>
+                  <p className="text-sm md:text-base text-gray-500">Start creating invoices to see reports</p>
                 </div>
               )}
             </div>
 
             {/* Recent Invoices Table */}
             {reportData.data?.invoices && reportData.data.invoices.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-xl p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                  <FaFileInvoice className="text-blue-600" />
-                  Recent Invoices
+              <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+                  <FaFileInvoice className="text-blue-600 text-lg md:text-xl" />
+                  <span className="text-base md:text-2xl">Recent Invoices</span>
                 </h2>
-                <div className="overflow-x-auto">
+                
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b-2 border-gray-200">
@@ -616,15 +686,52 @@ const Reports = () => {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-3">
+                  {reportData.data.invoices.slice(0, 10).map((invoice) => (
+                    <div key={invoice.id} className="bg-gradient-to-br from-gray-50 to-white rounded-xl border-2 border-gray-100 p-4 hover:shadow-lg transition-all">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">Invoice Number</p>
+                          <p className="font-bold text-blue-600 text-base">{invoice.invoiceNumber}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs text-gray-500 mb-1">Amount</p>
+                          <p className="font-bold text-gray-900 text-base">
+                            ₹{parseFloat(invoice.total).toLocaleString('en-IN')}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">Customer</p>
+                          <p className="text-sm font-semibold text-gray-800">{invoice.customerName}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">Date</p>
+                          <p className="text-sm font-semibold text-gray-600">
+                            {new Date(invoice.createdAt).toLocaleDateString('en-IN', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
               </>
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl p-16 text-center">
-            <FaChartLine className="text-8xl text-gray-300 mx-auto mb-6" />
-            <p className="text-2xl font-bold text-gray-400">No report data available</p>
+          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-16 text-center">
+            <FaChartLine className="text-6xl md:text-8xl text-gray-300 mx-auto mb-4 md:mb-6" />
+            <p className="text-xl md:text-2xl font-bold text-gray-400">No report data available</p>
           </div>
         )}
       </div>

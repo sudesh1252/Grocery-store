@@ -131,53 +131,52 @@ app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 5000;
 
-// Function to reset and create default users
-const resetAndCreateUsers = async () => {
+// Function to check and create default users if needed
+const setupDefaultUsers = async () => {
   try {
     const User = require('./models/User');
     
-    console.log('🔄 Setting up users...');
+    console.log('🔄 Checking users...');
     
-    // Don't drop table - just delete all users and recreate
-    await User.destroy({ where: {}, truncate: true, cascade: true });
+    // Check if admin exists
+    const adminExists = await User.findOne({ where: { email: 'admin@shreegrocery.com' } });
     
-    console.log('✅ Users table cleared');
+    if (!adminExists) {
+      // Create admin user
+      const admin = await User.create({
+        name: 'Admin',
+        email: 'admin@shreegrocery.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+      console.log('✅ Admin user created');
+      console.log('   Email: admin@shreegrocery.com');
+      console.log('   Password: admin123');
+    } else {
+      console.log('✅ Admin user already exists');
+    }
     
-    // Create admin user with plain password (will be hashed by model hook)
-    const admin = await User.create({
-      name: 'Admin',
-      email: 'admin@shreegrocery.com',
-      password: 'admin123',
-      role: 'admin'
-    });
+    // Check if your personal account exists
+    const userExists = await User.findOne({ where: { email: 'kirolkarsudesh06@gmail.com' } });
     
-    console.log('✅ Admin user created');
-    console.log('   Email: admin@shreegrocery.com');
-    console.log('   Password: admin123');
-    console.log('   ID:', admin.id);
+    if (!userExists) {
+      const user = await User.create({
+        name: 'Kirol Kar',
+        email: 'kirolkarsudesh06@gmail.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+      console.log('✅ Personal account created');
+      console.log('   Email: kirolkarsudesh06@gmail.com');
+      console.log('   Password: admin123');
+    } else {
+      console.log('✅ Personal account already exists');
+    }
     
-    // Create your personal account
-    const user = await User.create({
-      name: 'Kirol Kar',
-      email: 'kirolkarsudesh06@gmail.com',
-      password: 'admin123',
-      role: 'admin'
-    });
-    
-    console.log('✅ Personal account created');
-    console.log('   Email: kirolkarsudesh06@gmail.com');
-    console.log('   Password: admin123');
-    console.log('   ID:', user.id);
-    console.log('\n');
-    
-    // Test password comparison
-    const testLogin = await admin.comparePassword('admin123');
-    console.log('🧪 Password comparison test:', testLogin ? '✅ PASS' : '❌ FAIL');
     console.log('\n');
     
   } catch (error) {
     console.error('⚠️  Error setting up users:', error.message);
-    console.error(error);
   }
 };
 
@@ -191,14 +190,14 @@ const server = app.listen(PORT, async () => {
   console.log(`🔗 Health Check: http://localhost:${PORT}/health`);
   console.log('='.repeat(60) + '\n');
   
-  // Sync database and reset users
+  // Sync database and setup users
   try {
-    // Sync other tables normally
-    await sequelize.sync({ alter: false });
-    console.log('✅ Database connected\n');
+    // Sync tables (don't force or alter)
+    await sequelize.sync({ force: false, alter: false });
+    console.log('✅ Database synced\n');
     
-    // Reset and create users (only runs once per deployment)
-    await resetAndCreateUsers();
+    // Setup default users if they don't exist
+    await setupDefaultUsers();
   } catch (error) {
     console.error('⚠️  Error during startup:', error.message);
   }
